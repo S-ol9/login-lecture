@@ -1,9 +1,7 @@
 "use strict"
 
-const users = {
-    id: ["jinsol", "이진솔", "어피치"],
-    psword: ["123", "1234", "12345"],
-}
+const UserStorage = require("../../models/UserStorage")
+
 
 const output = {
     hello: (req, res) => {
@@ -13,7 +11,7 @@ const output = {
     login: (req, res) => {
         res.render("home/login");
     },
-}
+};
 
 const process = {
     login: (req, res) => {
@@ -21,19 +19,21 @@ const process = {
         const id = req.body.id,
             psword = req.body.psword;
 
+        // const userStorage = new UserStorage();
+        // 데이터를 저장하고 있는 인스턴스는 굳이 인스턴스화 안해도 된다.
+        const users = UserStorage.getUsers("id", "psword");
+        const response = {};
         if(users.id.includes(id)) {
             const idx = users.id.indexOf(id); //idx의 인덱스 가져오기
             if(users.psword[idx] === psword) {
-                return res.json({
-                    success: true,
-                });
+                response.success = true;
+                return res.json(response);
             }
         }
-
-        return res.json({
-            success: false,
-            msg: "로그인에 실패하셨습니다.",
-        })
+        
+        response.success = false;
+        response.msg = "로그인에 실패하셨습니다."
+        return res.json(response);
     },
 };
 
