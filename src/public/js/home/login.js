@@ -19,8 +19,19 @@ function login() {
         },
         body: JSON.stringify(req),
     })
-        .then((res) => res.json())
-        .then((res) => console.log(res)); //  서버에서 응답한 데이터를 받기 위함
+        .then((res) => res.json()) //  서버에서 응답한 데이터를 받기 위함
+        .then((res) => {
+            console.log(res);
+            if (res.success) {
+                location.href = "/";
+            } else {
+                alert(res.msg);
+            }
+        })
+        .catch((err) => {
+            console.error(new Error("로그인 중 에러 발생"));
+            alert(new Error("로그인 중 에러 발생"));
+        });
         // then(console.log); 로 res 인자값을 없애고 쓸 수 있음 (같다면)
     // res.json()의 반환 값은 Promise
     // 기본 res의 반환 값은 Response 스트림인데,
