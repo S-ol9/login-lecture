@@ -15,8 +15,17 @@ function login() {
     fetch("/login", {
         method: "POST",
         headers: {
-            "Contnent-Type": "application/json"
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(req),
     })
+        .then((res) => res.json())
+        .then((res) => console.log(res)); //  서버에서 응답한 데이터를 받기 위함
+        // then(console.log); 로 res 인자값을 없애고 쓸 수 있음 (같다면)
+    // res.json()의 반환 값은 Promise
+    // 기본 res의 반환 값은 Response 스트림인데,
+    // .json() 메소드를 통해 Response(응답) 스트림을 읽을 수 있다.
+    // Response는 데이터가 모두 받아진 상태가 아니다.
+    // .json()으로 Response 스트림을 가져와 완료될 때까지 읽는다.
+    // 다 읽은 body의 텍스트를 Promise 형태로 반환한다.
 };
